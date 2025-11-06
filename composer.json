@@ -1,0 +1,29 @@
+{
+  "name": "fatbit/utils",
+  "minimum-stability": "stable",
+  "description": "",
+  "authors": [
+    {
+      "name": "duncanxia",
+      "email": "duncanxia97@163.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Fatbit\\Utils\\": "src/"
+    },
+    "files": [
+      "src/functions.php"
+    ]
+  },
+
+  "require": {
+    "php": ">=8.1",
+    "ext-openssl": "*",
+    "ext-redis": "*",
+    "ext-ctype": "*",
+    "ext-mbstring": "*",
+    "ramsey/uuid": "^4.8",
+    "fatbit/enums": "^0.1.15"
+  },
+}

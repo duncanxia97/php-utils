@@ -1,0 +1,8 @@
+vendor
+.idea
+
+.phpunit.result.cache
+composer.lock
+/phpstan.neon
+*.log
+runtime
