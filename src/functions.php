@@ -926,3 +926,35 @@ if (!function_exists('decryptData')) {
         return openssl_decrypt($encryptedData, $cipherAlgo, $privateKey, $options, $encryption_iv);
     }
 }
+
+if (!function_exists('tryCatch')) {
+    /**
+     * 尝试捕获异常
+     *
+     * @author XJ.
+     * @Date   2025/11/7
+     *
+     * @param callable      $try
+     * @param               $default
+     * @param callable|null $catch
+     * @param callable|null $finally
+     *
+     * @return mixed
+     */
+    function tryCatch(callable $try, $default = null, ?callable $catch = null, ?callable $finally = null): mixed
+    {
+        try {
+            return $try();
+        } catch (\Throwable $e) {
+            if (!is_null($catch)) {
+                $catch($e);
+            }
+
+            return $default;
+        } finally {
+            if (!is_null($finally)) {
+                $finally();
+            }
+        }
+    }
+}
