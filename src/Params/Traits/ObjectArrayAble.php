@@ -12,17 +12,17 @@ trait ObjectArrayAble
 
     public function &getIterator(): \Iterator
     {
-        foreach ((array)$this as $key => &$value) {
-            yield $key => & $value;
+        foreach ((array)$this as $key => $_) {
+            yield $key => $this->{$key};
         }
     }
 
     public function offsetExists(mixed $offset): bool
     {
-        return isset($this->{$offset});
+        return property_exists($this, $offset);
     }
 
-    public function offsetGet(mixed $offset): mixed
+    public function &offsetGet(mixed $offset): mixed
     {
         return $this->{$offset};
     }
