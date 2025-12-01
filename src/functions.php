@@ -958,3 +958,36 @@ if (!function_exists('tryCatch')) {
         }
     }
 }
+
+if (!function_exists('formatDuration')) {
+    /**
+     * 格式化时长（毫秒）为可读格式
+     *
+     * @author XJ.
+     * @Date   2025/12/1
+     *
+     * @param float $ms        毫秒
+     * @param int   $precision 小数位数
+     *
+     * @return string
+     */
+    function formatDuration(float $ms, int $precision = 6): string
+    {
+        $units = [
+            86400000 => 'd',   // 24 * 60 * 60 * 1000
+            3600000  => 'h',   // 60 * 60 * 1000
+            60000    => 'min', // 60 * 1000
+            1000     => 's'    // 1000
+        ];
+
+        foreach ($units as $threshold => $unit) {
+            if ($ms >= $threshold) {
+                $value = $ms / $threshold;
+
+                return to_number($value, $precision) . $unit;
+            }
+        }
+
+        return to_number($ms, $precision) . 'ms';
+    }
+}
