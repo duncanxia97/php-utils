@@ -5,6 +5,7 @@
  */
 
 use Fatbit\Utils\Enums\DateGroupEnum;
+use Fatbit\Utils\Enums\TimeDurationEnum;
 use Fatbit\Utils\Helper\Str;
 
 if (!function_exists('arr2json')) {
@@ -961,33 +962,31 @@ if (!function_exists('tryCatch')) {
 
 if (!function_exists('formatDuration')) {
     /**
-     * 格式化时长（毫秒）为可读格式
+     * 格式化时长为可读格式
      *
      * @author XJ.
      * @Date   2025/12/1
      *
-     * @param float $ms        毫秒
-     * @param int   $precision 小数位数
+     * @param float            $duration  时长数值
+     * @param int              $precision 小数位数
+     * @param TimeDurationEnum $basic     基础时间单位
      *
      * @return string
      */
-    function formatDuration(float $ms, int $precision = 6): string
+    function formatDuration(float $duration, int $precision = 6, TimeDurationEnum $basic = TimeDurationEnum::MILLISECOND): string
     {
-        $units = [
-            86400000 => 'd',   // 24 * 60 * 60 * 1000
-            3600000  => 'h',   // 60 * 60 * 1000
-            60000    => 'min', // 60 * 1000
-            1000     => 's'    // 1000
-        ];
+        $ms = $duration * $basic->value;
 
-        foreach ($units as $threshold => $unit) {
-            if ($ms >= $threshold) {
-                $value = $ms / $threshold;
+        $units = TimeDurationEnum::all();
 
-                return to_number($value, $precision) . $unit;
+        foreach ($units as $timeDurationEnum) {
+            if ($ms >= $timeDurationEnum->value) {
+                $value = $ms / $timeDurationEnum->value;
+
+                return to_number($value, $precision) . $timeDurationEnum->format();
             }
         }
 
-        return to_number($ms, $precision) . 'ms';
+        return to_number($ms, $precision) . TimeDurationEnum::MILLISECOND->format();
     }
 }
