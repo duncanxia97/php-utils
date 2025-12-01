@@ -66,9 +66,9 @@ enum TimeDurationEnum: int implements EnumCaseInterface
      * @author XJ.
      * @Date   2025/12/1
      *
-     * @param bool $reverse
+     * @param bool $reverse 是否倒序
      *
-     * @return self[]
+     * @return self[] 时间单位枚举(默认从大到小)
      */
     public static function all(bool $reverse = false): array
     {
@@ -88,5 +88,31 @@ enum TimeDurationEnum: int implements EnumCaseInterface
         }
 
         return $arr;
+    }
+
+    /**
+     * 格式化时间单位字符串
+     *
+     * @author XJ.
+     * @Date   2025/12/1
+     *
+     * @param float $duration  时长数值
+     * @param int   $precision 精度
+     *
+     * @return string
+     */
+    public function formatDuration(float $duration, int $precision = 6): string
+    {
+        $ms  = $duration * $this->value;
+        $all = self::all();
+        foreach ($all as $timeDurationEnum) {
+            if ($ms >= $timeDurationEnum->value) {
+                $value = $ms / $timeDurationEnum->value;
+
+                return to_number($value, $precision) . $timeDurationEnum->format();
+            }
+        }
+
+        return to_number($ms, $precision) . TimeDurationEnum::MILLISECOND->format();
     }
 }

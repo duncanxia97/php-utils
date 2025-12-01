@@ -975,18 +975,6 @@ if (!function_exists('formatDuration')) {
      */
     function formatDuration(float $duration, int $precision = 6, TimeDurationEnum $basic = TimeDurationEnum::MILLISECOND): string
     {
-        $ms = $duration * $basic->value;
-
-        $units = TimeDurationEnum::all();
-
-        foreach ($units as $timeDurationEnum) {
-            if ($ms >= $timeDurationEnum->value) {
-                $value = $ms / $timeDurationEnum->value;
-
-                return to_number($value, $precision) . $timeDurationEnum->format();
-            }
-        }
-
-        return to_number($ms, $precision) . TimeDurationEnum::MILLISECOND->format();
+        return $basic->formatDuration($duration, $precision);
     }
 }
