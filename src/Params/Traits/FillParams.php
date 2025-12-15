@@ -138,6 +138,11 @@ trait FillParams
      */
     private function convertPropertyValue(string $propertyClass, mixed $propertyValue)
     {
+        // 本身转换
+        if ($propertyValue instanceof $propertyClass) {
+            return $propertyValue;
+        }
+
         // 枚举兼容
         if (is_subclass_of($propertyClass, \BackedEnum::class)) {
             return $propertyClass::tryFrom($propertyValue) ?? $propertyValue;
