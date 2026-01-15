@@ -44,7 +44,7 @@ trait FillParams
      *
      * @throws \ReflectionException
      */
-    private function assignmentProperty(string $propertyName, mixed $propertyValue)
+    protected function assignmentProperty(string $propertyName, mixed $propertyValue)
     {
         // 如果是对象或者null不需要转换
         if (!is_object($propertyValue) && !is_null($propertyValue)) {
@@ -70,7 +70,7 @@ trait FillParams
      *
      * @return mixed|\BackedEnum|AbstractParam
      */
-    private function convertProperty(\ReflectionType $propertyType, \ReflectionProperty $property, mixed $propertyValue): mixed
+    protected function convertProperty(\ReflectionType $propertyType, \ReflectionProperty $property, mixed $propertyValue): mixed
     {
         // 如果属性单类型，则进行转换
         if ($propertyType instanceof \ReflectionNamedType) {
@@ -109,7 +109,7 @@ trait FillParams
      *
      * @return array
      */
-    private function convertPropertyArrayValue(\ReflectionProperty $property, array $propertyValue)
+    protected function convertPropertyArrayValue(\ReflectionProperty $property, array $propertyValue)
     {
         $attr = $property->getAttributes(ParamArrayItemType::class)[0] ?? null;
         if (is_null($attr)) {
@@ -136,7 +136,7 @@ trait FillParams
      *
      * @return \BackedEnum|AbstractParam|mixed|void
      */
-    private function convertPropertyValue(string $propertyClass, mixed $propertyValue)
+    protected function convertPropertyValue(string $propertyClass, mixed $propertyValue)
     {
         // 本身转换
         if ($propertyValue instanceof $propertyClass) {
