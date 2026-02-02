@@ -978,3 +978,25 @@ if (!function_exists('formatDuration')) {
         return $basic->formatDuration($duration, $precision);
     }
 }
+
+if (!function_exists('class_instantiable')) {
+
+    /**
+     * 判断类是否可实例化
+     *
+     * @author XJ.
+     * @Date   2026/2/2
+     *
+     * @param object|string $classOrObject
+     *
+     * @return bool
+     */
+    function class_instantiable(object|string $classOrObject)
+    {
+        try {
+            return (new ReflectionClass($classOrObject))->isInstantiable();
+        } catch (ReflectionException) {
+            return false;
+        }
+    }
+}
