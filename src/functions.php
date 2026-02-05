@@ -571,8 +571,9 @@ if (!function_exists('arr2tree')) {
         string    $childrenName = 'children',
         int       $level = 1,
         ?callable $toVal = null,
+        bool      $keepKey = false,
     ): ?array {
-        return __arr2tree($list, $pid, $pidField, $pkField, $maxLevel, $childrenName, $level, $toVal);
+        return __arr2tree($list, $pid, $pidField, $pkField, $maxLevel, $childrenName, $level, $toVal, $keepKey);
     }
 
     /**
@@ -599,6 +600,7 @@ if (!function_exists('arr2tree')) {
         string    $childrenName = 'children',
         int       $level = 1,
         ?callable $toVal = null,
+        bool      $keepKey = false,
     ): ?array {
         if ($maxLevel !== null && $level > $maxLevel) {
             return [];
@@ -612,20 +614,26 @@ if (!function_exists('arr2tree')) {
                 $temp                                     = $val + [
                         $childrenName . 'Level' => $level,
                         $childrenName           => __arr2tree(
-                            $list,
-                            $val[$pkField],
-                            $pidField,
-                            $pkField,
-                            $maxLevel,
-                            $childrenName,
-                            $level + 1,
+                                     $list,
+                                     $val[$pkField],
+                                     $pidField,
+                                     $pkField,
+                                     $maxLevel,
+                                     $childrenName,
+                                     $level + 1,
+                                     $toVal,
+                            keepKey: $keepKey,
                         ),
                     ];
                 $temp[Str::camel('has_' . $childrenName)] = count($temp[$childrenName]) > 0;
                 if (is_callable($toVal)) {
                     $temp = $toVal($temp) + $temp;
                 }
-                $data[] = $temp;
+                if ($keepKey) {
+                    $data[$k] = $temp;
+                } else {
+                    $data[] = $temp;
+                }
                 unset($list[$k]);
             }
         }
