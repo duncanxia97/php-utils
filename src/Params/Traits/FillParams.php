@@ -19,10 +19,10 @@ trait FillParams
         if ($data) {
             $vars = get_class_vars(static::class);
             foreach ($vars as $key => $val) {
-                if (isset($data[$key])) {
+                if (array_key_exists($key, $data)) {
                     // 原始key 名
                     $this->assignmentProperty($key, $data[$key]);
-                } elseif (isset($data[$camelKey = Str::snake($key)])) {
+                } elseif (array_key_exists($camelKey = Str::snake($key), $data)) {
                     // 兼容驼峰
                     $this->assignmentProperty($key, $data[$camelKey]);
                 }
