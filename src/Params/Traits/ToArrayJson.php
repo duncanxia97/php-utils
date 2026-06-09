@@ -28,8 +28,11 @@ trait ToArrayJson
      *
      * @return array|object|string|null
      */
-    public function toJson(int $options = 256)
+    public function toJson(int $options = 0)
     {
+        if ($options === 0) {
+            $options = JSON_UNESCAPED_UNICODE;
+        }
         return arr2json($this->toArray(), $options);
     }
 
