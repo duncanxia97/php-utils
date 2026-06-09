@@ -28,7 +28,7 @@ trait ToArrayJson
      *
      * @return array|object|string|null
      */
-    public function toJson($options = 256)
+    public function toJson(int $options = 256)
     {
         return arr2json($this->toArray(), $options);
     }
